@@ -1,46 +1,39 @@
 import "./scss/styles.scss";
+import axios from 'axios';
 
 const searchBar = document.getElementById('search-bar');
 const searchBtn = document.getElementById('search-btn');
 const results = document.getElementById('results');
+const modal = document.getElementById('modal');
+const title = document.getElementById('desc-title');
+const description = document.getElementById('description');
+const closeModal = document.getElementById('closeModal');
+
 
 
 searchBtn.addEventListener('click', searchBooks)
+searchBar.addEventListener('focus', clearResult);
 
 function searchBooks() {
-  // clearResult();
   fetchSubject();
 }
 
+function clearResult() {
+  searchBar.value = ''; // Cancella il contenuto dell'input
+}
 
-// function fetchSubject(subject) {
-//   fetch(`https://openlibrary.org/subjects/.json?limit=16`)
-//    .then(response => {
-//       if (!response.ok) {
-//         throw new Error('Could not fetch resource');
-//       }
-//       return response.json();
-//     })
-//    .then(data => {
-//       console.log(data.works);
-//       getData(data);
-//     })
-//    .catch(error => console.error(error));
-// }
+
 function fetchSubject() {
   const subject = searchBar.value.toLowerCase();
 
-  fetch(`https://openlibrary.org/subjects/${subject}.json?limit=16`)
+  axios.get(`https://openlibrary.org/subjects/${subject}.json?limit=16`)
   .then(response => {
     
-    if(!response.ok){
+    if(response.status !== 200){
       throw new Error ('could not fetch resource');
     }
-    return response.json();
-  })
-  .then(data => {
-    console.log(data.works)
-    getData(data)
+
+    getData(response.data);
   })
   .catch(error => console.error(error))
 }
@@ -67,6 +60,7 @@ function createCard(item) {
 
   const title = document.createElement('h2');
   title.textContent = item.title;
+  const descTitle = item.title;
 
   const author = document.createElement('p');
   author.textContent = item.authors[0].name;
@@ -79,31 +73,40 @@ function createCard(item) {
   card.appendChild(littleContainer);
   littleContainer.appendChild(title);
   littleContainer.appendChild(author);
-  card.appendChild(descriptionBtn(book));
+  card.appendChild(descriptionBtn(book, descTitle));
 }
 
-function descriptionBtn(book) {
+function descriptionBtn(book, descTitle) {
   const descriptionBtn = document.createElement('button');
   descriptionBtn.textContent = 'Show more'
   descriptionBtn.addEventListener('click', () => {
-    fetchDesc(book)
+    fetchDesc(book, descTitle)
   })
 
   return descriptionBtn;
 }
 
-function fetchDesc(book) {
-
-  fetch(`https://openlibrary.org${book}.json`)
+function fetchDesc(book, descTitle) {
+  axios.get(`https://openlibrary.org${book}.json`)
   .then(response => {
 
-    if(!response.ok){
-      throw new Error ('could not fetch resource');
-    }
-    
-    return response.json();
+    const bookDescription = response.data.description; // Rinominiamo la variabile
+    showModal(bookDescription, descTitle);
+  
   })
-  .then(response => {
-    console.log('---' + response.description)
-  })
+  .catch(error => {
+    console.error('Errore durante il fetch:', error);
+  });
 }
+
+function showModal(bookDescription, descTitle) {
+  modal.style.display = 'block'; // Mostra il modal
+  title.textContent =  descTitle; // Imposta il titolo del modal
+  description.textContent = bookDescription; // Imposta il testo della descrizione nel modal
+}
+
+closeModal.addEventListener('click', () => {
+  modal.style.display = 'none'; // Chiudi il modal
+})
+
+

@@ -9,11 +9,11 @@ module.exports = {
   output: {
     filename: "app.js",
     path: path.resolve(__dirname, "dist"),
-    publicPath: "/",
+    // publicPath: "/",
     assetModuleFilename: 'images/[name][ext][query]'
   },
   plugins: [new HtmlWebpackPlugin({
-    template: './src/index.html'
+    template: './src/index.html',
   }),
    new MiniCssExtractPlugin({
       filename: '[name].css',
@@ -24,6 +24,7 @@ module.exports = {
         test: /\.scss$/,
         use: [
           MiniCssExtractPlugin.loader,
+          // "style-loader",
           "css-loader",
           "sass-loader"
         ]

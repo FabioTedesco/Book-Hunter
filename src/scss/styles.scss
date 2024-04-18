@@ -1,3 +1,97 @@
-body {
-  background: url("./../images/0012743736-M.jpg") center center;
+// body {
+//   background: url("./../images/0012743736-M.jpg") center center;
+// }
+
+*{
+  margin: 0;
+  background-color: rgb(245, 222, 179);
 }
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 50px 0;
+}
+
+#search-section{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  padding: 50px;
+  height: 15rem;
+  background-image: url(../images/books-1204029_1920.jpg);
+  background-size: cover; 
+  background-position: center; 
+
+  input {
+    width: 30%;
+    height: 10%;
+    border: none;
+    border-radius: 10px;
+    background-color: whitesmoke;
+    font-size: large;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  button{
+    border: none;
+    border-radius: 10px;
+    height: 10%;
+    
+  }
+}
+
+.results{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  
+  .card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 20%;
+    margin: 20px;
+    background-color: rgba(245, 222, 179, 0.9);
+
+    transition: transform 0.3s ease-in-out;
+    border: 1px solid rgba(34, 33, 33,0.1); 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Ombra leggera per profondità */
+    /* Aggiungi qui ulteriori stili per la tua carta, come padding o bordi arrotondati */
+
+    h2{
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    p{
+      margin: 10px 0;
+      text-align: center;
+    }
+
+    button{
+      margin-bottom: 10px;
+    }
+
+    &:hover{
+      transform: scale(1.05); 
+    }
+  }
+}
+
+.infoWindow{
+  width: 80%;
+  height: 80%;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+
+

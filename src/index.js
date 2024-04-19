@@ -9,21 +9,19 @@ const title = document.getElementById('desc-title');
 const description = document.getElementById('description');
 const closeModal = document.getElementById('closeModal');
 
-
-
 searchBtn.addEventListener('click', searchBooks)
 searchBar.addEventListener('focus', clearResult);
-
+closeModal.addEventListener('click', () => { modal.style.display = 'none'; })   //Hides the modal.
+   
 function searchBooks() {
   fetchSubject();
 }
 
-function clearResult() {
-  searchBar.value = ''; // Cancella il contenuto dell'input
+function clearResult() {   // Cancella il contenuto dell'input per una nuova ricerca
+  searchBar.value = ''; 
 }
 
-
-function fetchSubject() {
+function fetchSubject() {  // Fetches the subject data from the Open Library API.
   const subject = searchBar.value.toLowerCase();
 
   axios.get(`https://openlibrary.org/subjects/${subject}.json?limit=16`)
@@ -35,9 +33,8 @@ function fetchSubject() {
 
     getData(response.data);
   })
-  .catch(error => console.error(error))
+  .catch(error => alert(error))
 }
-
 
 function getData(data) {
   const value = data.works;
@@ -47,8 +44,7 @@ function getData(data) {
     })
 }
 
-
-function createCard(item) {
+function createCard(item) {  //Creates a card for a book result.
   const card = document.createElement('div');
   card.classList.add('card');
 
@@ -65,7 +61,6 @@ function createCard(item) {
   const author = document.createElement('p');
   author.textContent = item.authors[0].name;
 
-  // const showMore = descriptionBtn(item.key);
   const book = item.key;
 
   results.appendChild(card);
@@ -76,7 +71,7 @@ function createCard(item) {
   card.appendChild(descriptionBtn(book, descTitle));
 }
 
-function descriptionBtn(book, descTitle) {
+function descriptionBtn(book, descTitle) {    //Creates a "Show more" button that displays the book description in a modal.
   const descriptionBtn = document.createElement('button');
   descriptionBtn.textContent = 'Show more'
   descriptionBtn.addEventListener('click', () => {
@@ -86,27 +81,25 @@ function descriptionBtn(book, descTitle) {
   return descriptionBtn;
 }
 
-function fetchDesc(book, descTitle) {
+function fetchDesc(book, descTitle) {  //Fetches the book description from the Open Library API and displays it in a modal.
   axios.get(`https://openlibrary.org${book}.json`)
   .then(response => {
 
-    const bookDescription = response.data.description; // Rinominiamo la variabile
+    const bookDescription = response.data.description; 
     showModal(bookDescription, descTitle);
   
   })
   .catch(error => {
-    console.error('Errore durante il fetch:', error);
+    console.error('Could not fetch data', error);
   });
 }
 
-function showModal(bookDescription, descTitle) {
-  modal.style.display = 'block'; // Mostra il modal
-  title.textContent =  descTitle; // Imposta il titolo del modal
-  description.textContent = bookDescription; // Imposta il testo della descrizione nel modal
+function showModal(bookDescription, descTitle) {  //Displays the book description in a modal.
+  modal.style.display = 'block'; 
+  title.textContent =  descTitle; 
+  description.textContent = bookDescription; 
 }
 
-closeModal.addEventListener('click', () => {
-  modal.style.display = 'none'; // Chiudi il modal
-})
+
 
 

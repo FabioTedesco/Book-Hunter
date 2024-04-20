@@ -26,7 +26,7 @@ Each book is presented in a card-like format, including the book cover, title, a
  - JAVASCRIPT
  - WEBPACK
  - AXIOS
- - LODASH
+
 
 # Contact
 Contact me!

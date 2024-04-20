@@ -1,3 +1,7 @@
+/**
+ * The JavaScript code fetches book data from the Open Library API based on user input, displays search
+ * results with book covers and authors, and allows users to view book descriptions in a modal.
+ */
 import "./scss/styles.scss";
 import axios from 'axios';
 
@@ -12,6 +16,7 @@ const closeModal = document.getElementById('closeModal');
 searchBtn.addEventListener('click', searchBooks)
 searchBar.addEventListener('focus', clearResult);
 closeModal.addEventListener('click', () => { modal.style.display = 'none'; })   //Hides the modal.
+closeModal.addEventListener('touchstart', () => { modal.style.display = 'none'; })   //Hides the modal.
    
 function searchBooks() {
   fetchSubject();

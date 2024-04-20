@@ -1,6 +1,6 @@
 # Book Hunter
-<img src="images/website-overview.png">
-click here: https://adreambookshelf.netlify.app/
+<img src="src/images/website-overview.png">
+click here: https://hunterofbooks.netlify.app/
 
 # The Project
 
